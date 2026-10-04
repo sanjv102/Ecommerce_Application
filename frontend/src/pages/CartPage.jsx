@@ -6,7 +6,7 @@ const CartPage = () => {
 
     const BASEURL = import.meta.env.VITE_API_URL;
     const { cartItems, total, removeFromCart, updateQuantity } = useCart();
-    const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    /*const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);*/
 
 
     return (
