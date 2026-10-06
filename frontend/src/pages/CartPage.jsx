@@ -1,5 +1,6 @@
 import React from 'react'
 import {useCart} from '../context/CartContext.jsx'
+import {Link} from 'react-router-dom'
 
 
 const CartPage = () => {
@@ -42,6 +43,7 @@ const CartPage = () => {
                     <div className='border-t border-gray-300 mt-6 pt-4 flex justify-between items-center'>
                         <h2 className='text-xl font-bold'>Total:</h2>
                         <p className='text-xl font-semibold'>{total}</p>
+                        <Link to="/checkout" className='bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition'>Proceed to Checkout</Link>
                     </div>
                 </div>
             )}

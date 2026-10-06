@@ -1,4 +1,5 @@
 import {React, createContext, useContext, useState, useEffect} from 'react'
+import {authFetch, getAccessToken} from '../utils/auth.js'
 
 const CartContext = createContext();
 
@@ -11,10 +12,7 @@ export const CartProvider = ({children}) => {
     //Fetch cart items from backend
     const fetchCart = async () => {
         try {
-            const response = await fetch(`${BASEURL}/api/cart/`);
-            if(!response.ok){
-                throw new Error("Failed to fetch cart");
-            }
+            const response = await authFetch(`${BASEURL}/api/cart/`);
             const data = await response.json();
             setCartItems(data.items || []);
             setTotal(data.total || 0);
@@ -30,7 +28,7 @@ export const CartProvider = ({children}) => {
     //Add product to cart
     const addToCart = async(productid) => {
         try {
-            const response = await fetch(`${BASEURL}/api/cart/add/`, {
+            const response = await authFetch(`${BASEURL}/api/cart/add/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -49,7 +47,7 @@ export const CartProvider = ({children}) => {
     //Remove from cart
     const removeFromCart = async(itemId) =>{
         try {
-            const response = await fetch(`${BASEURL}/api/cart/remove/`, {
+            const response = await authFetch(`${BASEURL}/api/cart/remove/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -72,7 +70,7 @@ export const CartProvider = ({children}) => {
             return;
         }
         try {
-            const response = await fetch(`${BASEURL}/api/cart/update/`, {
+            const response = await authFetch(`${BASEURL}/api/cart/update/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,8 +86,13 @@ export const CartProvider = ({children}) => {
         }
     };
 
+    const clearCart = () => {
+        setCartItems([]);
+        setTotal(0);
+    }
+
     return (
-        <CartContext.Provider value={{cartItems, total, addToCart, removeFromCart, updateQuantity}}>
+        <CartContext.Provider value={{cartItems, total, addToCart, removeFromCart, updateQuantity, clearCart}}>
             {children}
         </CartContext.Provider>
     )
